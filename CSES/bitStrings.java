@@ -2,9 +2,8 @@ import java.util.Scanner;
 
 public class bitStrings {
     public static void main(String args[]){
-        Scanner sc = new Scanner(System.in);
+        try(Scanner sc = new Scanner(System.in)){
         int n = sc.nextInt();
-        sc.close();
         
         final long MOD = 1000000007L; // 10^9 + 7
         
@@ -14,5 +13,6 @@ public class bitStrings {
         }
         
         System.out.println(result);
+    }
     }
 }
