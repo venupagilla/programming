@@ -8,13 +8,11 @@ public class coinPiles {
                 long a=sc.nextLong();
                 long b=sc.nextLong();
                 long c=a+b;
-                if((a<=2*b) && (b<=2*a)){
-                if(c%3==0){
+                if((a<=2*b) && (b<=2*a) && c%3==0){
                     output1.append("YES").append("\n");
                 }else{
                     output1.append("NO").append("\n");
                 }
-            }
             }
             System.out.println(output1);
 
