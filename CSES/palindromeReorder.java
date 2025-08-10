@@ -10,13 +10,11 @@ public class palindromeReorder {
     }
 
     private static String solve(String str) {
-        // Count frequencies of characters
         int[] freq = new int[26];
         for (char ch : str.toCharArray()) {
             freq[ch - 'A']++;
         }
         
-        // Find odd frequency count
         int oddCount = 0;
         char midChar = '\0';
         for (int i = 0; i < 26; i++) {
@@ -26,12 +24,11 @@ public class palindromeReorder {
             }
         }
         
-        // Check if palindrome is possible
         if (oddCount > 1) {
             return "NO SOLUTION";
         }
         
-        // Build first half of palindrome
+
         StringBuilder firstHalf = new StringBuilder();
         for (int i = 0; i < 26; i++) {
             if (freq[i] > 0) {
@@ -42,7 +39,7 @@ public class palindromeReorder {
             }
         }
         
-        // Build full palindrome
+
         StringBuilder result = new StringBuilder(firstHalf);
         if (midChar != '\0') {
             result.append(midChar);
