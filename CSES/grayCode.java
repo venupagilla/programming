@@ -5,11 +5,12 @@ public class grayCode {
         int n=sc.nextInt();
         sc.close();
         int total=1<<n;
+        StringBuilder output1=new StringBuilder();
         for(int i=0;i<total;i++){
             int gray=i^(i>>1);
-            String binary=String.format("%"+n+"s",Integer.toBinaryString(gray)).replace(" ","0");
-            System.out.println(binary);
+            output1.append(String.format("%"+n+"s",Integer.toBinaryString(gray)).replace(" ","0")).append("\n");
         }
+        System.out.println(output1.toString());
     }
     }
 }
