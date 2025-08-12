@@ -1,0 +1,50 @@
+body {
+    background-image: url("https://images.pexels.com/photos/2310713/pexels-photo-2310713.jpeg");
+    background-size: cover;
+    background-repeat: no-repeat;
+    background-position: center;
+    margin: 0;
+    padding: 20px;
+    font-family: Arial, sans-serif;
+}
+
+h1 {
+    font-family: Georgia, 'Times New Roman', Times, serif;
+    text-align: center;
+    font-size: 60px;
+    color: rgb(98, 34, 34);
+    border: 5px solid rgb(98, 34, 34);
+    border-radius: 10px;
+    padding: 10px;
+    background-color: rgba(255, 255, 255, 0.8);
+}
+
+#mainimage {
+    max-width: 40%;
+    height: auto;
+    display: block;
+    float: left;
+    margin-right: 20px;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+}
+
+#info {
+    font-size: 1.45vw;
+    color: rgb(98, 34, 34);
+    border: 5px solid rgb(98, 34, 34);
+    border-radius: 10px;
+    padding: 15px;
+    background-color: rgba(255, 255, 255, 0.85);
+    overflow: hidden;
+}
+.down{
+    max-width:15vw;
+    height: auto;
+    display: inline;
+    border-radius: 10px;
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.4);
+    margin-right: 10.3px;
+}
+
+
