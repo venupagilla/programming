@@ -1,0 +1,70 @@
+*{
+    margin: 0px;
+}
+nav{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    background-color: rgb(46, 0, 88);
+
+}
+nav>#title01{
+    font-size: 2.5rem;
+    margin: 1rem;
+    margin-left: 2rem;
+    color: aliceblue;
+}
+.right-nav-info{
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+    align-items: center;
+    gap:4rem;
+    margin-right: 2rem;
+    margin: 1rem;
+    color: aliceblue;
+    font-size: 1.5rem;
+}
+.img-main{
+    display:flex;
+    flex-direction: row;
+}
+.img-text{
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    margin: 2.5rem;
+}
+#biryani-img{
+    height: 20rem;
+    width: auto;
+    margin: 2.5rem;
+    border-radius: 10px;
+    transition: all 1s;
+}
+#biryani-img:hover{
+    height: 21rem;
+    box-shadow: 5px 5px 10px rgba(46, 0, 88,0.5),
+    -5px -5px 10px rgba(46, 0, 88,0.5),
+    -5px 5px 10px rgba(46, 0, 88,0.5),
+    5px -5px 10px rgba(46, 0, 88,0.5);
+}
+#img-heading{
+    font-size: 3rem;
+    margin-bottom: 2rem;
+    font-weight: 600;
+    transition: all 1s;
+    
+}
+#img-heading:hover {
+    background-color: rgb(46, 0, 88);
+    color: white;                /* text visible on dark bg */
+    padding: 0.5rem 1rem;        /* give background space */
+    border-radius: 5px;          /* smooth edges */
+    transform: scale(1.05);      /* slight zoom */
+}
+
+#img-info{
+    font-size: 1.1rem;
+}
