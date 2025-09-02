@@ -1,0 +1,94 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+    <style>
+        .container{
+            border: 5px solid maroon;
+            margin: 1%;
+            height: 95vh;
+            width: 95vw;
+        }
+        .animation-part1{
+            position: relative;
+            border: 3px solid lightblue;
+            height: 7vh;
+            width: 25vh;
+            margin: 2%;
+            background-color: lightblue;
+            animation-name: moving;
+            animation-duration: 3s;
+            animation-iteration-count: infinite;
+            animation-direction: alternate;
+            animation-timing-function: ease-in-out;
+            margin-bottom: 10px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            
+        }
+        @keyframes moving{
+            from{
+                top:0%;
+                left: 0%;
+                box-shadow: 5px 5px 5px lightcyan,-5px -5px 5px lightcyan,5px -5px 5px lightcyan,-5px 5px 5px lightcyan;
+            }
+            to{
+                background-color: lightcoral;
+                border-color: lightcoral;
+                border-radius: 50px;
+                top:0%;
+                left: 75vw;
+                box-shadow: 5px 5px 5px lightsalmon,-5px -5px 5px lightsalmon,5px -5px 5px lightsalmon,-5px 5px 5px lightsalmon;
+            }
+        }
+        .animation-part2{
+            border: 3px solid lightcoral;
+            height: 50px;
+            width: 95%;
+            margin: 2%;
+            background-color: lightcoral;
+            transition-duration: 2s;
+            transition-property: all;
+            transition-timing-function: ease-in-out;
+            position: relative;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+
+        }
+        .animation-part2:hover{
+             background-color: brown;
+                border-color: brown;
+                border-radius: 50px;
+                width: 95%;
+                height: 70%;
+                margin: 2%;
+                #text1{
+                    color: rgba(10,10,10,100);
+                }
+        }
+        .header{
+            display: flex;
+            justify-content: center;
+            align-items: center;
+        }
+    </style>
+</head>
+<body>
+    <div class="container">
+        <div class="header">
+            <h1>Difference between Animation and transistion</h1>
+        </div>
+        <div class="animation-part1">
+            <h3 id="text2">This is animation</h3>
+        </div>
+        <div class="animation-part2">
+            <h1 id="text1">Hover on me to begin transisiton</h1>
+        </div>
+    </div>
+    
+</body>
+</html>
