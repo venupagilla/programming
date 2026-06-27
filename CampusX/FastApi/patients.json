@@ -1,0 +1,90 @@
+{
+  "poo1": {
+    "id": 1,
+    "name": "John Doe",
+    "age": 34,
+    "gender": "Male",
+    "diagnosis": "Hypertension",
+    "admitted": true,
+    "height": 175,
+    "weight": 80,
+    "bmi": 26.1
+  },
+  "poo2": {
+    "id": 2,
+    "name": "Jane Smith",
+    "age": 28,
+    "gender": "Female",
+    "diagnosis": "Diabetes",
+    "admitted": false,
+    "height": 165,
+    "weight": 62,
+    "bmi": 22.8
+  },
+  "poo3": {
+    "id": 3,
+    "name": "Carlos Ruiz",
+    "age": 45,
+    "gender": "Male",
+    "diagnosis": "Asthma",
+    "admitted": true,
+    "height": 180,
+    "weight": 85,
+    "bmi": 26.2
+  },
+  "poo4": {
+    "id": 4,
+    "name": "Aisha Khan",
+    "age": 52,
+    "gender": "Female",
+    "diagnosis": "Arthritis",
+    "admitted": false,
+    "height": 160,
+    "weight": 70,
+    "bmi": 27.3
+  },
+  "poo5": {
+    "id": 5,
+    "name": "Emily Chen",
+    "age": 39,
+    "gender": "Female",
+    "diagnosis": "Migraine",
+    "admitted": true,
+    "height": 168,
+    "weight": 58,
+    "bmi": 20.5
+  },
+  "poo6": {
+    "id": 6,
+    "name": "Mohammed Ali",
+    "age": 60,
+    "gender": "Male",
+    "diagnosis": "COPD",
+    "admitted": false,
+    "height": 172,
+    "weight": 78,
+    "bmi": 26.4
+  },
+  "poo7": {
+    "id": 7,
+    "name": "Sara Lee",
+    "age": 23,
+    "gender": "Female",
+    "diagnosis": "Anemia",
+    "admitted": true,
+    "height": 158,
+    "weight": 52,
+    "bmi": 20.8
+  },
+  "poo8": {
+    "id": 8,
+    "name": "David Brown",
+    "age": 50,
+    "gender": "Male",
+    "diagnosis": "Heart Disease",
+    "admitted": false,
+    "height": 178,
+    "weight": 92,
+    "bmi": 29.0
+  }
+}

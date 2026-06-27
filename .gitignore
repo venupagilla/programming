@@ -56,7 +56,13 @@ target/
 *.exe
 *.out
 
+# Vector store / ChromaDB
+**/ipl_vector_store/
+**/chroma.sqlite3
+*.chroma/
+
 # Logs / databases
 *.log
 *.sqlite
 *.db
+*.sqlite3

@@ -1,0 +1,990 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Decode Ways Visualizer - LeetCode 91</title>
+    <!-- Tailwind CSS -->
+    <script src="https://cdn.tailwindcss.com"></script>
+    <!-- Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Inter:wght@300;400;500;600;700;800&display=swap" rel="stylesheet">
+    <style>
+        body {
+            font-family: 'Inter', sans-serif;
+        }
+        .code-font {
+            font-family: 'Fira Code', monospace;
+        }
+        /* Custom scrollbar */
+        ::-webkit-scrollbar {
+            width: 6px;
+            height: 6px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #1e293b;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #475569;
+            border-radius: 4px;
+        }
+        ::-webkit-scrollbar-thumb:hover {
+            background: #64748b;
+        }
+    </style>
+</head>
+<body class="bg-slate-950 text-slate-100 min-h-screen flex flex-col selection:bg-indigo-500/30 selection:text-indigo-200">
+
+    <!-- Header Section -->
+    <header class="border-b border-slate-800 bg-slate-900/50 backdrop-blur sticky top-0 z-50 px-6 py-4">
+        <div class="max-w-7xl mx-auto flex flex-col md:flex-row items-center justify-between gap-4">
+            <div class="flex items-center gap-3">
+                <div class="h-10 w-10 rounded-xl bg-indigo-600 flex items-center justify-center shadow-lg shadow-indigo-500/20">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-6 w-6 text-white" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M8 9l3 3-3 3m5 0h3M5 20h14a2 2 0 002-2V6a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
+                    </svg>
+                </div>
+                <div>
+                    <h1 class="text-xl font-bold tracking-tight text-white flex items-center gap-2">
+                        Decode Ways Visualizer
+                        <span class="text-xs bg-indigo-500/10 text-indigo-400 font-semibold px-2 py-0.5 rounded border border-indigo-500/20">LeetCode 91</span>
+                    </h1>
+                    <p class="text-xs text-slate-400">Interactive execution, animations, and mathematical breakdown of Dynamic Programming</p>
+                </div>
+            </div>
+            
+            <!-- Quick Navigation/Github style links -->
+            <div class="flex items-center gap-4 text-xs text-slate-400 bg-slate-950 px-3 py-1.5 rounded-lg border border-slate-800">
+                <span class="flex items-center gap-1.5"><span class="h-2 w-2 rounded-full bg-emerald-500 animate-pulse"></span> DP Approach</span>
+                <span class="text-slate-700">|</span>
+                <span>Time: O(N)</span>
+                <span class="text-slate-700">|</span>
+                <span>Space: O(N)</span>
+            </div>
+        </div>
+    </header>
+
+    <!-- Main Container -->
+    <main class="flex-1 max-w-7xl w-full mx-auto p-4 md:p-6 grid grid-cols-1 lg:grid-cols-12 gap-6">
+        
+        <!-- LEFT PANEL: Visualizer (Cols: 7) -->
+        <div class="lg:col-span-7 flex flex-col gap-6">
+            
+            <!-- Input & Presets Card -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-4 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+                        <path fill-rule="evenodd" d="M11.49 3.17c-.38-1.56-2.6-1.56-2.98 0a1.532 1.532 0 01-2.286.948c-1.372-.836-2.942.734-2.106 2.106.54.886.061 2.042-.947 2.287-1.561.379-1.561 2.6 0 2.978a1.532 1.532 0 01.947 2.287c-.836 1.372.734 2.942 2.106 2.106a1.532 1.532 0 012.287.947c.379 1.561 2.6 1.561 2.978 0a1.532 1.532 0 012.287-.947c1.372.836 2.942-.734 2.106-2.106a1.532 1.532 0 01.947-2.287c1.561-.379 1.561-2.6 0-2.978a1.532 1.532 0 01-.947-2.287c.836-1.372-.734-2.942-2.106-2.106a1.532 1.532 0 01-2.287-.947zM10 13a3 3 0 100-6 3 3 0 000 6z" clip-rule="evenodd" />
+                    </svg>
+                    Interactive Simulator Settings
+                </h3>
+                
+                <div class="flex flex-col md:flex-row gap-4 items-end">
+                    <div class="flex-1 w-full">
+                        <label for="string-input" class="block text-xs font-medium text-slate-400 mb-1.5">Input Number String s (digits '0'-'9')</label>
+                        <div class="relative">
+                            <input type="text" id="string-input" maxlength="10" placeholder="e.g. 226" value="226"
+                                class="w-full bg-slate-950 border border-slate-700 rounded-xl px-4 py-2.5 text-white placeholder-slate-600 focus:outline-none focus:border-indigo-500 focus:ring-2 focus:ring-indigo-500/20 tracking-widest text-lg font-bold transition-all duration-200">
+                            <div class="absolute right-3 top-2.5 text-xs text-slate-500" id="input-length">3/10 chars</div>
+                        </div>
+                    </div>
+                    
+                    <button id="btn-init" class="w-full md:w-auto bg-indigo-600 hover:bg-indigo-500 active:bg-indigo-700 text-white font-semibold px-6 py-2.5 rounded-xl flex items-center justify-center gap-2 shadow-lg shadow-indigo-600/20 transition-all duration-150">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M4 2a1 1 0 011 1v2.101a7.002 7.002 0 0111.601 2.566 1 1 0 11-1.885.666A5.002 5.002 0 005.999 7H9a1 1 0 110 2H4a1 1 0 01-1-1V3a1 1 0 011-1zm.008 9.057a1 1 0 011.276.61A5.002 5.002 0 0014.001 13H11a1 1 0 110-2h5a1 1 0 011 1v5a1 1 0 11-2 0v-2.101a7.002 7.002 0 01-11.601-2.566 1 1 0 01.61-1.276z" clip-rule="evenodd" />
+                        </svg>
+                        Initialize View
+                    </button>
+                </div>
+
+                <!-- Presets selection -->
+                <div class="mt-4 flex flex-wrap items-center gap-2">
+                    <span class="text-xs text-slate-500 mr-1">Presets:</span>
+                    <button class="preset-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-indigo-950 hover:text-indigo-300 border border-slate-700 hover:border-indigo-500/30 text-slate-300 transition-all" data-val="226">226 (Classic)</button>
+                    <button class="preset-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-indigo-950 hover:text-indigo-300 border border-slate-700 hover:border-indigo-500/30 text-slate-300 transition-all" data-val="10">10 (With Zero)</button>
+                    <button class="preset-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-indigo-950 hover:text-indigo-300 border border-slate-700 hover:border-indigo-500/30 text-slate-300 transition-all" data-val="2101">2101 (Complex 0)</button>
+                    <button class="preset-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-indigo-950 hover:text-indigo-300 border border-slate-700 hover:border-indigo-500/30 text-slate-300 transition-all" data-val="30">30 (Invalid start)</button>
+                    <button class="preset-btn px-3 py-1 text-xs font-semibold rounded-lg bg-slate-800 hover:bg-indigo-950 hover:text-indigo-300 border border-slate-700 hover:border-indigo-500/30 text-slate-300 transition-all" data-val="1111">1111 (Fibonacci 5)</button>
+                </div>
+            </div>
+
+            <!-- Visual Animation Board -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl flex-1 flex flex-col justify-between gap-8 min-h-[420px]">
+                
+                <!-- STEP BANNER / TRACKER -->
+                <div class="flex justify-between items-start gap-4">
+                    <div class="flex items-center gap-2 bg-indigo-500/10 text-indigo-400 border border-indigo-500/20 px-3 py-1.5 rounded-xl">
+                        <span class="flex h-2 w-2 rounded-full bg-indigo-400"></span>
+                        <span class="text-xs font-bold tracking-wider uppercase" id="step-label">Step 0/0</span>
+                    </div>
+                    <div class="flex gap-1 bg-slate-950 p-1 rounded-xl border border-slate-800" id="legend">
+                        <span class="text-[10px] text-slate-400 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                            <span class="h-2 w-2 bg-sky-500 rounded-sm inline-block"></span> single-digit
+                        </span>
+                        <span class="text-[10px] text-slate-400 px-2 py-0.5 rounded-lg flex items-center gap-1">
+                            <span class="h-2 w-2 bg-purple-500 rounded-sm inline-block"></span> two-digit
+                        </span>
+                    </div>
+                </div>
+
+                <!-- MAIN ANIMATION CANVAS -->
+                <div class="flex flex-col gap-10 py-4 my-auto">
+                    
+                    <!-- 1. The input string character slots -->
+                    <div class="flex flex-col gap-2">
+                        <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest pl-2">Input String (s)</span>
+                        <div class="flex items-center gap-2 md:gap-3 flex-wrap" id="string-track-container">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+
+                    <!-- Visual arrows representing updates (Curved connections) -->
+                    <div class="relative h-2 -my-6 hidden md:block overflow-visible">
+                        <svg class="absolute top-0 left-0 w-full h-10 overflow-visible pointer-events-none" id="svg-paths">
+                            <!-- Dynamic SVG lines rendered here to connect cells -->
+                        </svg>
+                    </div>
+
+                    <!-- 2. DP Array Visualization -->
+                    <div class="flex flex-col gap-2">
+                        <div class="flex items-center justify-between pl-2 pr-2">
+                            <span class="text-xs font-semibold text-slate-500 uppercase tracking-widest">DP Array (dp[i])</span>
+                            <span class="text-xs text-slate-400 italic">dp[i] = ways for prefix of length i</span>
+                        </div>
+                        <div class="flex items-center gap-2 md:gap-3 flex-wrap" id="dp-table-container">
+                            <!-- Populated by JavaScript -->
+                        </div>
+                    </div>
+                </div>
+
+                <!-- BOTTOM TRACE FORMULA (DP Math context) -->
+                <div class="bg-slate-950/60 rounded-xl p-4 border border-slate-800 flex flex-col md:flex-row items-center justify-between gap-4">
+                    <div class="flex items-center gap-3">
+                        <div class="h-8 w-8 rounded-lg bg-emerald-500/10 border border-emerald-500/20 flex items-center justify-center text-emerald-400 font-bold text-xs">
+                            f
+                        </div>
+                        <div>
+                            <div class="text-xs text-slate-400">Current Transition Logic</div>
+                            <div class="text-sm font-semibold text-slate-200 code-font" id="formula-display">dp[i] = dp[i-1] + dp[i-2]</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center gap-2 bg-slate-900 border border-slate-800 px-3 py-1.5 rounded-lg text-xs" id="variable-watch">
+                        <span class="text-slate-500">i: <strong class="text-indigo-400" id="watch-i">-</strong></span>
+                        <span class="text-slate-700">|</span>
+                        <span class="text-slate-500">1-digit: <strong class="text-sky-400" id="watch-1d">-</strong></span>
+                        <span class="text-slate-700">|</span>
+                        <span class="text-slate-500">2-digit: <strong class="text-purple-400" id="watch-2d">-</strong></span>
+                    </div>
+                </div>
+
+            </div>
+
+            <!-- Animation Controls Panel -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex flex-col sm:flex-row items-center justify-between gap-4">
+                <div class="flex items-center gap-2">
+                    <button id="btn-prev" class="p-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition-all" title="Previous Step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.707 5.293a1 1 0 010 1.414L9.414 10l3.293 3.293a1 1 0 01-1.414 1.414l-4-4a1 1 0 010-1.414l4-4a1 1 0 011.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                    
+                    <button id="btn-play-pause" class="px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-600/10 transition-all min-w-[110px] justify-center">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" id="play-icon">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                        </svg>
+                        <span id="play-text">Play</span>
+                    </button>
+                    
+                    <button id="btn-next" class="p-3 bg-slate-800 hover:bg-slate-700 text-slate-300 rounded-xl transition-all" title="Next Step">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M7.293 14.707a1 1 0 010-1.414L10.586 10 7.293 6.707a1 1 0 011.414-1.414l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414 0z" clip-rule="evenodd" />
+                        </svg>
+                    </button>
+                </div>
+
+                <div class="flex items-center gap-3 w-full sm:w-auto">
+                    <span class="text-xs text-slate-400 whitespace-nowrap">Speed:</span>
+                    <input type="range" id="speed-slider" min="300" max="2500" value="1200" step="100" 
+                        class="w-full sm:w-32 accent-indigo-500 bg-slate-950 h-2 rounded-lg cursor-pointer">
+                    <span class="text-xs text-slate-400 w-12 text-right font-mono" id="speed-display">1.2s</span>
+                </div>
+            </div>
+
+            <!-- Decoding pathways visualization card -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h4 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center justify-between">
+                    <span class="flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-emerald-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
+                        </svg>
+                        Alphabetical Mapping & Decoding Pathways
+                    </span>
+                    <span class="text-[11px] font-normal text-indigo-400 bg-indigo-500/10 border border-indigo-500/20 px-2 py-0.5 rounded">A-Z Map</span>
+                </h4>
+                <div class="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-2 mb-4 text-[10px] text-slate-400 border border-slate-800 bg-slate-950/60 p-3 rounded-xl max-h-[85px] overflow-y-auto">
+                    <div>1: A, 2: B, 3: C</div>
+                    <div>4: D, 5: E, 6: F</div>
+                    <div>7: G, 8: H, 9: I</div>
+                    <div>10: J ... 19: S</div>
+                    <div>20: T ... 25: Y</div>
+                    <div>26: Z</div>
+                </div>
+
+                <div class="flex flex-col gap-2">
+                    <div class="text-xs font-semibold text-slate-400">Decoded Variations of Current Prefix:</div>
+                    <div id="pathways-list" class="flex flex-wrap gap-2 text-xs">
+                        <!-- Filled by JavaScript -->
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+        <!-- RIGHT PANEL: Code & Text Walkthrough (Cols: 5) -->
+        <div class="lg:col-span-5 flex flex-col gap-6">
+            
+            <!-- Code View Card -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl flex-1 flex flex-col">
+                <div class="flex items-center justify-between border-b border-slate-800 pb-3 mb-4">
+                    <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 flex items-center gap-2">
+                        <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-400" viewBox="0 0 20 20" fill="currentColor">
+                            <path fill-rule="evenodd" d="M12.316 3.051a1 1 0 01.633 1.265l-4 12a1 1 0 11-1.898-.632l4-12a1 1 0 011.265-.633zM5.707 6.293a1 1 0 010 1.414L3.414 10l2.293 2.293a1 1 0 11-1.414 1.414l-3-3a1 1 0 010-1.414l3-3a1 1 0 011.414 0zm8.586 0a1 1 0 011.414 0l3 3a1 1 0 010 1.414l-3 3a1 1 0 11-1.414-1.414L16.586 10l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" />
+                        </svg>
+                        Java Solution Walkthrough
+                    </h3>
+                    <div class="flex items-center gap-1.5 bg-slate-950 px-2.5 py-1 rounded-lg border border-slate-800 text-[11px] font-mono text-slate-400">
+                        Solution.java
+                    </div>
+                </div>
+
+                <!-- Code Block -->
+                <div class="bg-slate-950 border border-slate-800 rounded-xl overflow-hidden code-font text-xs flex-1 max-h-[500px] overflow-y-auto">
+                    <div class="py-2.5 leading-relaxed relative" id="code-walkthrough">
+                        <!-- JS lines populated dynamically -->
+                    </div>
+                </div>
+            </div>
+
+            <!-- Narratives / Interactive Explanation -->
+            <div class="bg-slate-900 border border-slate-800 rounded-2xl p-5 shadow-xl">
+                <h3 class="text-sm font-semibold uppercase tracking-wider text-slate-400 mb-3 flex items-center gap-2">
+                    <svg xmlns="http://www.w3.org/2000/svg" class="h-4 w-4 text-indigo-400" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                        <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9.663 17h4.673M12 3v1m6.364 1.636l-.707.707M21 12h-1M4 12H3m3.343-5.657l-.707-.707m2.828 9.9a5 5 0 117.072 0l-.548.547A3.374 3.374 0 0014 18.469V19a2 2 0 11-4 0v-.531c0-.895-.356-1.754-.988-2.386l-.548-.547z" />
+                    </svg>
+                    Step Explanation & Insight
+                </h3>
+                
+                <div class="bg-slate-950 border border-slate-800 rounded-xl p-4 min-h-[140px] flex flex-col justify-between">
+                    <p class="text-xs text-slate-300 leading-relaxed" id="step-description">
+                        Initializing the tracker. Press "Play" or use the step buttons below to visualize the algorithm step by step.
+                    </p>
+                    
+                    <div class="mt-3 pt-3 border-t border-slate-800/80 flex items-center justify-between text-[11px] text-slate-400">
+                        <span id="substep-badge" class="bg-slate-800 text-slate-300 px-2 py-0.5 rounded">Setup</span>
+                        <span class="flex items-center gap-1 text-indigo-400">
+                            Learn Decodings <svg xmlns="http://www.w3.org/2000/svg" class="h-3 w-3" viewBox="0 0 20 20" fill="currentColor"><path fill-rule="evenodd" d="M12.293 5.293a1 1 0 011.414 0l4 4a1 1 0 010 1.414l-4 4a1 1 0 01-1.414-1.414L14.586 11H3a1 1 0 110-2h11.586l-2.293-2.293a1 1 0 010-1.414z" clip-rule="evenodd" /></svg>
+                        </span>
+                    </div>
+                </div>
+            </div>
+
+        </div>
+
+    </main>
+
+    <!-- Detailed Explanation Card below (Theoretical details) -->
+    <section class="max-w-7xl w-full mx-auto p-4 md:p-6 mb-8">
+        <div class="bg-slate-900 border border-slate-800 rounded-2xl p-6 shadow-xl grid grid-cols-1 md:grid-cols-3 gap-6">
+            
+            <div class="flex flex-col gap-2">
+                <div class="h-10 w-10 rounded-xl bg-sky-500/10 border border-sky-500/20 text-sky-400 flex items-center justify-center font-bold text-lg">1</div>
+                <h4 class="font-bold text-white text-sm">Why $dp[0] = 1$?</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    $dp[0]$ represents an empty string. There is exactly 1 way to decode an empty string (doing nothing). If we encounter a valid 2-digit number (like "26") at the start, $dp[2] += dp[0]$ adds this single way (26 $\rightarrow$ Z), making the transition logic uniform.
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="h-10 w-10 rounded-xl bg-purple-500/10 border border-purple-500/20 text-purple-400 flex items-center justify-center font-bold text-lg">2</div>
+                <h4 class="font-bold text-white text-sm">Handling Zeros ('0')</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    A standalone '0' cannot map to any letter. Thus, if `oneDigit` is 0, we add 0 ways (skip $dp[i-1]$ transition). A '0' can only survive if combined with '1' or '2' to form "10" or "20". This is why $dp$ arrays are incredibly effective at dealing with zeros.
+                </p>
+            </div>
+
+            <div class="flex flex-col gap-2">
+                <div class="h-10 w-10 rounded-xl bg-emerald-500/10 border border-emerald-500/20 text-emerald-400 flex items-center justify-center font-bold text-lg">3</div>
+                <h4 class="font-bold text-white text-sm">Optimal DP State</h4>
+                <p class="text-xs text-slate-400 leading-relaxed">
+                    For any position $i$, the number of ways to decode is simply the sum of translating the last single digit (if valid, adding $dp[i-1]$) and the last double digit (if valid, adding $dp[i-2]$). This mirrors the Fibonacci sequence but with conditional validation constraints!
+                </p>
+            </div>
+
+        </div>
+    </section>
+
+    <!-- Footer -->
+    <footer class="border-t border-slate-900 bg-slate-950 px-6 py-6 mt-auto">
+        <div class="max-w-7xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 text-xs text-slate-500">
+            <div>
+                Interactive visual learning aid for software engineers.
+            </div>
+            <div>
+                Created in 2026 for algorithmic clarity.
+            </div>
+        </div>
+    </footer>
+
+    <!-- JAVA CODE DATA & VISUALIZER LOGIC -->
+    <script>
+        // The Java code text lines to be loaded into the dynamic view
+        const javaCodeLines = [
+            { num: 1, text: "class Solution {" },
+            { num: 2, text: "    public int numDecodings(String s) {" },
+            { num: 3, text: "        int n = s.length();" },
+            { num: 4, text: "        " },
+            { num: 5, text: "        // Edge case: empty string or starts with '0'" },
+            { num: 6, text: "        if (n == 0 || s.charAt(0) == '0') {" },
+            { num: 7, text: "            return 0;" },
+            { num: 8, text: "        }" },
+            { num: 9, text: "        " },
+            { num: 10, text: "        // dp[i] stores the number of ways to decode prefix length i" },
+            { num: 11, text: "        int[] dp = new int[n + 1];" },
+            { num: 12, text: "        " },
+            { num: 13, text: "        dp[0] = 1; // One way to decode empty string" },
+            { num: 14, text: "        dp[1] = 1; // One way to decode first char (non-'0')" },
+            { num: 15, text: "        " },
+            { num: 16, text: "        for (int i = 2; i <= n; i++) {" },
+            { num: 17, text: "            // Check single digit decoding (current character)" },
+            { num: 18, text: "            int oneDigit = Character.getNumericValue(s.charAt(i - 1));" },
+            { num: 19, text: "            if (oneDigit >= 1 && oneDigit <= 9) {" },
+            { num: 20, text: "                dp[i] += dp[i - 1];" },
+            { num: 21, text: "            }" },
+            { num: 22, text: "            " },
+            { num: 23, text: "            // Check two digit decoding (previous and current)" },
+            { num: 24, text: "            int twoDigits = Integer.parseInt(s.substring(i - 2, i));" },
+            { num: 25, text: "            if (twoDigits >= 10 && twoDigits <= 26) {" },
+            { num: 26, text: "                dp[i] += dp[i - 2];" },
+            { num: 27, text: "            }" },
+            { num: 28, text: "        }" },
+            { num: 29, text: "        " },
+            { num: 30, text: "        return dp[n];" },
+            { num: 31, text: "    }" },
+            { num: 32, text: "}" }
+        ];
+
+        // Global Visualizer State variables
+        let animationSteps = [];
+        let currentStepIndex = 0;
+        let isPlaying = false;
+        let playIntervalId = null;
+        let playbackSpeed = 1200; // ms per step
+
+        // Elements
+        const elStringInput = document.getElementById('string-input');
+        const elInputLength = document.getElementById('input-length');
+        const elBtnInit = document.getElementById('btn-init');
+        const elPresetBtns = document.querySelectorAll('.preset-btn');
+        const elStringTrackContainer = document.getElementById('string-track-container');
+        const elDpTableContainer = document.getElementById('dp-table-container');
+        const elSvgPaths = document.getElementById('svg-paths');
+        const elFormulaDisplay = document.getElementById('formula-display');
+        const elWatchI = document.getElementById('watch-i');
+        const elWatch1d = document.getElementById('watch-1d');
+        const elWatch2d = document.getElementById('watch-2d');
+        const elStepLabel = document.getElementById('step-label');
+        const elBtnPrev = document.getElementById('btn-prev');
+        const elBtnPlayPause = document.getElementById('btn-play-pause');
+        const elBtnNext = document.getElementById('btn-next');
+        const elSpeedSlider = document.getElementById('speed-slider');
+        const elSpeedDisplay = document.getElementById('speed-display');
+        const elCodeWalkthrough = document.getElementById('code-walkthrough');
+        const elStepDescription = document.getElementById('step-description');
+        const elSubstepBadge = document.getElementById('substep-badge');
+        const elPathwaysList = document.getElementById('pathways-list');
+
+        // Populate Code View Once
+        function buildCodeView() {
+            elCodeWalkthrough.innerHTML = javaCodeLines.map(line => {
+                return `
+                    <div id="code-line-${line.num}" class="flex items-start px-4 py-0.5 hover:bg-slate-900 transition-colors duration-100">
+                        <span class="w-8 select-none text-slate-600 text-[10px] text-right pr-3 font-mono font-normal">${line.num}</span>
+                        <pre class="flex-1 whitespace-pre-wrap break-all pr-4 text-slate-300 font-medium">${escapeHTML(line.text)}</pre>
+                    </div>
+                `;
+            }).join('');
+        }
+
+        function escapeHTML(str) {
+            return str.replace(/&/g, '&amp;').replace(/</g, '&lt;').replace(/>/g, '&gt;');
+        }
+
+        // Alphabet Helper to map 1..26 to A..Z
+        function numToLetter(num) {
+            if (num >= 1 && num <= 26) {
+                return String.fromCharCode(64 + num);
+            }
+            return '';
+        }
+
+        // Backtrack helper to find all decodings for the pathways list visualizer
+        function getValidDecodings(s) {
+            const result = [];
+            function backtrack(index, path) {
+                if (index === s.length) {
+                    result.push(path.join(''));
+                    return;
+                }
+                // Single digit
+                const singleNum = parseInt(s.substring(index, index + 1));
+                if (singleNum >= 1 && singleNum <= 9) {
+                    backtrack(index + 1, [...path, numToLetter(singleNum)]);
+                }
+                // Two digits
+                if (index + 2 <= s.length) {
+                    const doubleNum = parseInt(s.substring(index, index + 2));
+                    if (doubleNum >= 10 && doubleNum <= 26) {
+                        backtrack(index + 2, [...path, numToLetter(doubleNum)]);
+                    }
+                }
+            }
+            backtrack(0, []);
+            return result;
+        }
+
+        // Generator for visual execution steps
+        function generateSteps(s) {
+            const steps = [];
+            const n = s.length;
+            let dp = new Array(n + 1).fill(0);
+
+            // Helper to capture a snapshot of state
+            function capture(args) {
+                steps.push({
+                    s: s,
+                    dp: [...dp],
+                    i: args.i || null,
+                    highlightedLines: args.lines || [],
+                    description: args.description || "",
+                    substep: args.substep || "Logic Check",
+                    stringHighlights: args.stringHighlights || [],
+                    dpHighlights: args.dpHighlights || [],
+                    additionLine: args.additionLine || null, // 'single' or 'double'
+                    var1d: args.var1d !== undefined ? args.var1d : null,
+                    var2d: args.var2d !== undefined ? args.var2d : null,
+                    formulaText: args.formulaText || "dp[i] = dp[i-1] + dp[i-2]",
+                    failed: args.failed || false,
+                    success: args.success || false
+                });
+            }
+
+            // Step 1: Initial state
+            capture({
+                lines: [2, 3],
+                description: `Starting the algorithm for input string <strong>"${s}"</strong> of length ${n}. We first inspect initial boundary parameters.`,
+                substep: "Initialize"
+            });
+
+            // Edge Case Check
+            if (n === 0 || s[0] === '0') {
+                const desc = n === 0 
+                    ? "The input string is empty (length is 0). A valid decoding needs characters. Returning 0."
+                    : `The input string starts with <strong>'${s[0]}'</strong>. Since '0' has no alphabet mapping (1='A', 2='B', etc.), the string is undecodable starting with '0'. Returning 0.`;
+                dp.fill(0);
+                capture({
+                    lines: [6, 7],
+                    description: desc,
+                    substep: "Edge Case",
+                    stringHighlights: n > 0 ? [0] : [],
+                    failed: true
+                });
+                return steps;
+            }
+
+            // Initialization of DP
+            capture({
+                lines: [11],
+                description: `Creating the DP array of size <strong>N + 1</strong> (${n + 1}). <strong>dp[i]</strong> will store the total decoding options for the prefix of length <strong>i</strong>.`,
+                substep: "Init DP"
+            });
+
+            dp[0] = 1;
+            capture({
+                lines: [13],
+                description: "Setting <strong>dp[0] = 1</strong>. This acts as our base case identity. It logically represents 1 way to decode an empty string (doing nothing). This enables simple additions.",
+                substep: "Base Case dp[0]",
+                dpHighlights: [0]
+            });
+
+            dp[1] = 1;
+            capture({
+                lines: [14],
+                description: `Setting <strong>dp[1] = 1</strong>. Since the first character <strong>'${s[0]}'</strong> is not '0', there is exactly 1 way to decode the first single character ("${s[0]}" &rarr; ${numToLetter(parseInt(s[0]))}).`,
+                substep: "Base Case dp[1]",
+                dpHighlights: [1],
+                stringHighlights: [0]
+            });
+
+            // Main loop
+            for (let i = 2; i <= n; i++) {
+                // Outer loop iteration start
+                capture({
+                    lines: [16],
+                    description: `Entering DP transition loop for <strong>i = ${i}</strong>. We are computing decoding variations for the prefix substring <strong>"${s.substring(0, i)}"</strong>.`,
+                    substep: "Loop Index",
+                    i: i,
+                    dpHighlights: [i]
+                });
+
+                // Single digit check
+                const charVal1 = s.charAt(i - 1);
+                const oneDigit = parseInt(charVal1);
+                const isOneDigitValid = oneDigit >= 1 && oneDigit <= 9;
+                
+                capture({
+                    lines: [18, 19],
+                    description: `Examine the single digit at position i-1 (character <strong>'${charVal1}'</strong> at index ${i-1}). We check if it is within <strong>[1, 9]</strong>.`,
+                    substep: "1-Digit Check",
+                    i: i,
+                    stringHighlights: [i-1],
+                    dpHighlights: [i],
+                    var1d: `${oneDigit} (${isOneDigitValid ? 'Valid' : 'Invalid'})`,
+                    formulaText: `Is '${charVal1}' &ge; 1 and &le; 9? ${isOneDigitValid ? 'YES' : 'NO'}`
+                });
+
+                if (isOneDigitValid) {
+                    dp[i] += dp[i - 1];
+                    capture({
+                        lines: [20],
+                        description: `Since <strong>'${oneDigit}'</strong> is a valid code (&rarr; ${numToLetter(oneDigit)}), any valid decoding of prefix length ${i-1} can be extended. We add <strong>dp[i-1]</strong> (${dp[i-1]}) to <strong>dp[i]</strong>. dp[i] becomes <strong>${dp[i]}</strong>.`,
+                        substep: "1-Digit Update",
+                        i: i,
+                        stringHighlights: [i-1],
+                        dpHighlights: [i-1, i],
+                        additionLine: 'single',
+                        var1d: `${oneDigit} (Valid &rarr; +${dp[i-1]})`,
+                        formulaText: `dp[${i}] += dp[${i-1}] (${dp[i-1]})`
+                    });
+                } else {
+                    capture({
+                        lines: [19],
+                        description: `Single digit character is <strong>'0'</strong> which cannot stand alone. No transitions from dp[${i-1}] can extend directly using this single character. We add 0.`,
+                        substep: "1-Digit Invalid",
+                        i: i,
+                        stringHighlights: [i-1],
+                        dpHighlights: [i],
+                        failed: true,
+                        var1d: `${oneDigit} (Invalid)`,
+                        formulaText: `dp[${i}] unchanged`
+                    });
+                }
+
+                // Two digit check
+                const charVal2 = s.substring(i - 2, i);
+                const twoDigits = parseInt(charVal2);
+                const isTwoDigitsValid = twoDigits >= 10 && twoDigits <= 26;
+
+                capture({
+                    lines: [24, 25],
+                    description: `Examine the double digits from i-2 to i (substring <strong>"${charVal2}"</strong>). We check if it falls within valid alphabet range <strong>[10, 26]</strong> (J to Z).`,
+                    substep: "2-Digit Check",
+                    i: i,
+                    stringHighlights: [i-2, i-1],
+                    dpHighlights: [i],
+                    var1d: isOneDigitValid ? `${oneDigit}` : `${oneDigit} (Invalid)`,
+                    var2d: `${twoDigits} (${isTwoDigitsValid ? 'Valid' : 'Invalid'})`,
+                    formulaText: `Is "${charVal2}" &ge; 10 and &le; 26? ${isTwoDigitsValid ? 'YES' : 'NO'}`
+                });
+
+                if (isTwoDigitsValid) {
+                    const prevVal = dp[i];
+                    dp[i] += dp[i - 2];
+                    capture({
+                        lines: [26],
+                        description: `Since <strong>"${twoDigits}"</strong> is a valid code (&rarr; ${numToLetter(twoDigits)}), any valid decoding of prefix length ${i-2} can be extended. We add <strong>dp[i-2]</strong> (${dp[i-2]}) to <strong>dp[i]</strong>. dp[i] becomes <strong>${dp[i]}</strong>.`,
+                        substep: "2-Digit Update",
+                        i: i,
+                        stringHighlights: [i-2, i-1],
+                        dpHighlights: [i-2, i],
+                        additionLine: 'double',
+                        var1d: isOneDigitValid ? `${oneDigit}` : `${oneDigit} (Invalid)`,
+                        var2d: `${twoDigits} (Valid &rarr; +${dp[i-2]})`,
+                        formulaText: `dp[${i}] += dp[${i-2}] (${dp[i-2]})`
+                    });
+                } else {
+                    capture({
+                        lines: [25],
+                        description: `The two-digit block <strong>"${charVal2}"</strong> does not form a valid alphabet index (must be 10-26). Hence, no transition from dp[${i-2}] is added.`,
+                        substep: "2-Digit Invalid",
+                        i: i,
+                        stringHighlights: [i-2, i-1],
+                        dpHighlights: [i],
+                        failed: true,
+                        var1d: isOneDigitValid ? `${oneDigit}` : `${oneDigit} (Invalid)`,
+                        var2d: `${twoDigits} (Invalid)`,
+                        formulaText: `dp[${i}] unchanged`
+                    });
+                }
+            }
+
+            // Final Result return
+            capture({
+                lines: [30],
+                description: `The process is complete! The final answer is stored in <strong>dp[n]</strong> (dp[${n}]), which gives us <strong>${dp[n]}</strong> valid ways to decode "${s}".`,
+                substep: "Completed",
+                dpHighlights: [n],
+                success: true
+            });
+
+            return steps;
+        }
+
+        // Initialize display using current visualizer step
+        function renderStep() {
+            if (animationSteps.length === 0) return;
+            const step = animationSteps[currentStepIndex];
+
+            // 1. Update Labels & Description
+            elStepLabel.textContent = `Step ${currentStepIndex + 1}/${animationSteps.length}`;
+            elStepDescription.innerHTML = step.description;
+            elSubstepBadge.textContent = step.substep;
+
+            // Highlight Substep badge colors depending on status
+            elSubstepBadge.className = "px-2 py-0.5 rounded text-xs font-semibold ";
+            if (step.failed) {
+                elSubstepBadge.className += "bg-rose-500/10 text-rose-400 border border-rose-500/20";
+            } else if (step.success) {
+                elSubstepBadge.className += "bg-emerald-500/10 text-emerald-400 border border-emerald-500/20";
+            } else {
+                elSubstepBadge.className += "bg-indigo-500/10 text-indigo-400 border border-indigo-500/20";
+            }
+
+            // 2. Variable Watcher Updates
+            elWatchI.textContent = step.i !== null ? step.i : '-';
+            elWatch1d.textContent = step.var1d !== null ? step.var1d : '-';
+            elWatch2d.textContent = step.var2d !== null ? step.var2d : '-';
+            elFormulaDisplay.innerHTML = step.formulaText;
+
+            // Update formula display styling
+            if (step.additionLine === 'single') {
+                elFormulaDisplay.className = "text-sm font-semibold text-sky-400 code-font";
+            } else if (step.additionLine === 'double') {
+                elFormulaDisplay.className = "text-sm font-semibold text-purple-400 code-font";
+            } else {
+                elFormulaDisplay.className = "text-sm font-semibold text-slate-200 code-font";
+            }
+
+            // 3. Render Input String with highlights
+            elStringTrackContainer.innerHTML = '';
+            for (let idx = 0; idx < step.s.length; idx++) {
+                const char = step.s[idx];
+                const isHighlighted = step.stringHighlights.includes(idx);
+                
+                // Color highlight configurations based on substep
+                let bgClass = "bg-slate-950 border-slate-800 text-slate-300";
+                if (isHighlighted) {
+                    if (step.stringHighlights.length === 1) {
+                        bgClass = "bg-sky-500/20 border-sky-400 text-sky-200 shadow-md shadow-sky-500/10 scale-105";
+                    } else if (step.stringHighlights.length === 2) {
+                        bgClass = "bg-purple-500/20 border-purple-400 text-purple-200 shadow-md shadow-purple-500/10 scale-105";
+                    }
+                }
+
+                elStringTrackContainer.innerHTML += `
+                    <div class="flex flex-col items-center gap-1">
+                        <span class="text-[10px] text-slate-500 font-mono">idx: ${idx}</span>
+                        <div class="h-14 w-14 rounded-xl border flex items-center justify-center text-xl font-extrabold tracking-wide transition-all duration-300 ${bgClass}">
+                            ${char}
+                        </div>
+                    </div>
+                `;
+            }
+
+            // 4. Render DP Table with highlights
+            elDpTableContainer.innerHTML = '';
+            step.dp.forEach((val, idx) => {
+                const isHighlighted = step.dpHighlights.includes(idx);
+                const isCurrentIdx = (step.i === idx);
+                
+                let cardClass = "bg-slate-950 border-slate-800 text-slate-400";
+                if (isHighlighted) {
+                    if (isCurrentIdx) {
+                        cardClass = "bg-indigo-600 border-indigo-400 text-white shadow-lg shadow-indigo-500/30 scale-110 z-10 font-bold";
+                    } else {
+                        // Source cells that we are reading from
+                        const isSingleSourced = (step.additionLine === 'single' && idx === step.i - 1);
+                        const isDoubleSourced = (step.additionLine === 'double' && idx === step.i - 2);
+
+                        if (isSingleSourced) {
+                            cardClass = "bg-sky-500/10 border-sky-500/80 text-sky-400 font-bold scale-105";
+                        } else if (isDoubleSourced) {
+                            cardClass = "bg-purple-500/10 border-purple-500/80 text-purple-400 font-bold scale-105";
+                        } else {
+                            cardClass = "bg-slate-800 border-indigo-500/50 text-slate-200 font-semibold";
+                        }
+                    }
+                } else if (idx > (step.i !== null ? step.i : 999)) {
+                    // Future state cells not computed yet
+                    cardClass = "bg-slate-950/40 border-slate-900 text-slate-700 opacity-60";
+                }
+
+                elDpTableContainer.innerHTML += `
+                    <div id="dp-node-${idx}" class="flex flex-col items-center gap-1 transition-all duration-300">
+                        <span class="text-[10px] text-slate-500 font-mono">dp[${idx}]</span>
+                        <div class="h-16 w-16 rounded-xl border flex flex-col items-center justify-center transition-all duration-300 ${cardClass}">
+                            <span class="text-xs font-mono font-bold leading-none mb-1 text-slate-500">val:</span>
+                            <span class="text-lg font-black leading-none">${val}</span>
+                        </div>
+                    </div>
+                `;
+            });
+
+            // 5. Update Dynamic Paths (Arrows SVG overlays if available)
+            drawTracePaths(step);
+
+            // 6. Highlight active Code Lines
+            javaCodeLines.forEach(line => {
+                const rowEl = document.getElementById(`code-line-${line.num}`);
+                if (rowEl) {
+                    if (step.highlightedLines.includes(line.num)) {
+                        rowEl.className = "flex items-start px-4 py-0.5 bg-indigo-500/20 border-l-4 border-indigo-500 transition-all duration-150 text-white";
+                        rowEl.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+                    } else {
+                        rowEl.className = "flex items-start px-4 py-0.5 hover:bg-slate-900 border-l-4 border-transparent transition-all duration-150";
+                    }
+                }
+            });
+
+            // 7. Update Decoding Pathways list
+            updatePrefixPathways(step);
+
+            // 8. Control buttons state update
+            elBtnPrev.disabled = currentStepIndex === 0;
+            elBtnNext.disabled = currentStepIndex === animationSteps.length - 1;
+            
+            // Adjust opacity for disabled buttons
+            elBtnPrev.style.opacity = currentStepIndex === 0 ? '0.4' : '1';
+            elBtnNext.style.opacity = currentStepIndex === animationSteps.length - 1 ? '0.4' : '1';
+        }
+
+        // Highlight and compute current valid pathways depending on algorithm progress
+        function updatePrefixPathways(step) {
+            elPathwaysList.innerHTML = '';
+            
+            // Slice prefix depending on active cursor 'i'
+            let activeLen = step.s.length;
+            if (step.i !== null) {
+                activeLen = step.i;
+            } else if (step.substep.startsWith("Base Case dp[0]")) {
+                activeLen = 0;
+            } else if (step.substep.startsWith("Base Case dp[1]")) {
+                activeLen = 1;
+            } else if (step.substep === "Initialize") {
+                activeLen = 0;
+            }
+
+            const prefix = step.s.substring(0, activeLen);
+            if (prefix.length === 0) {
+                elPathwaysList.innerHTML = `
+                    <span class="text-slate-500 italic px-3 py-1 bg-slate-950/40 rounded-lg border border-slate-900">
+                        No character decoded yet (empty prefix)
+                    </span>
+                `;
+                return;
+            }
+
+            const decodings = getValidDecodings(prefix);
+            if (decodings.length === 0) {
+                elPathwaysList.innerHTML = `
+                    <span class="text-rose-400 font-semibold px-3 py-1 bg-rose-500/10 rounded-lg border border-rose-500/20">
+                        Invalid segment. 0 decodings possible.
+                    </span>
+                `;
+            } else {
+                decodings.forEach(dec => {
+                    elPathwaysList.innerHTML += `
+                        <span class="px-3 py-1 bg-emerald-500/10 text-emerald-300 font-bold tracking-widest border border-emerald-500/20 rounded-lg shadow-sm">
+                            ${dec}
+                        </span>
+                    `;
+                });
+            }
+        }
+
+        // Draw animated SVG pathways connecting active DP indexes
+        function drawTracePaths(step) {
+            elSvgPaths.innerHTML = '';
+            
+            if (!step.additionLine || step.i === null) return;
+            
+            // Locate nodes in DOM
+            const sourceIndex = step.additionLine === 'single' ? step.i - 1 : step.i - 2;
+            const targetIndex = step.i;
+
+            const sourceNode = document.getElementById(`dp-node-${sourceIndex}`);
+            const targetNode = document.getElementById(`dp-node-${targetIndex}`);
+
+            if (!sourceNode || !targetNode) return;
+
+            // Wait until layout completes to calculate positions
+            setTimeout(() => {
+                const parentRect = elDpTableContainer.getBoundingClientRect();
+                const srcRect = sourceNode.getBoundingClientRect();
+                const trgRect = targetNode.getBoundingClientRect();
+
+                const x1 = srcRect.left + srcRect.width / 2 - parentRect.left;
+                const y1 = srcRect.top - parentRect.top;
+                const x2 = trgRect.left + trgRect.width / 2 - parentRect.left;
+                const y2 = trgRect.top - parentRect.top;
+
+                // Create curved path (control point)
+                const dx = x2 - x1;
+                const cy = y1 - 20; // curvature height
+                
+                const pathColor = step.additionLine === 'single' ? '#38bdf8' : '#c084fc'; // sky vs purple
+                const pathD = `M ${x1} ${y1} Q ${(x1 + x2) / 2} ${cy} ${x2} ${y2}`;
+
+                elSvgPaths.innerHTML = `
+                    <path d="${pathD}" fill="none" stroke="${pathColor}" stroke-width="3" stroke-linecap="round" class="animate-pulse" />
+                    <circle cx="${x1}" cy="${y1}" r="4" fill="${pathColor}" />
+                    <circle cx="${x2}" cy="${y2}" r="4" fill="${pathColor}" />
+                `;
+            }, 50);
+        }
+
+        // Start animations and interactive states
+        function initVisualizer(inputVal) {
+            // Clean up old active threads
+            pauseAnimation();
+
+            // Validate string input
+            let s = inputVal.trim().replace(/\D/g, ''); // strip non-digits
+            if (s.length === 0) {
+                s = "226"; // Fallback
+            }
+            elStringInput.value = s;
+            elInputLength.textContent = `${s.length}/10 chars`;
+
+            animationSteps = generateSteps(s);
+            currentStepIndex = 0;
+            renderStep();
+        }
+
+        // Play/Pause control
+        function togglePlay() {
+            if (isPlaying) {
+                pauseAnimation();
+            } else {
+                startAnimation();
+            }
+        }
+
+        function startAnimation() {
+            if (currentStepIndex === animationSteps.length - 1) {
+                currentStepIndex = 0; // restart
+            }
+            isPlaying = true;
+            elPlayText.textContent = "Pause";
+            elBtnPlayPause.className = "px-6 py-3 bg-amber-600 hover:bg-amber-500 text-white font-semibold rounded-xl flex items-center gap-2 shadow-lg shadow-amber-600/10 transition-all min-w-[110px] justify-center";
+            document.getElementById('play-icon').innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M10 9v6m4-6v6m7-3a9 9 0 11-18 0 9 9 0 0118 0z" />
+                </svg>
+            `;
+
+            playIntervalId = setInterval(() => {
+                if (currentStepIndex < animationSteps.length - 1) {
+                    currentStepIndex++;
+                    renderStep();
+                } else {
+                    pauseAnimation();
+                }
+            }, playbackSpeed);
+        }
+
+        function pauseAnimation() {
+            isPlaying = false;
+            elPlayText.textContent = "Play";
+            elBtnPlayPause.className = "px-6 py-3 bg-emerald-600 hover:bg-emerald-500 text-white font-semibold rounded-xl flex items-center gap-2 shadow-lg shadow-emerald-600/10 transition-all min-w-[110px] justify-center";
+            document.getElementById('play-icon').innerHTML = `
+                <svg xmlns="http://www.w3.org/2000/svg" class="h-5 w-5" fill="none" viewBox="0 0 24 24" stroke="currentColor">
+                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2.5" d="M14.752 11.168l-3.197-2.132A1 1 0 0010 9.87v4.263a1 1 0 001.555.832l3.197-2.132a1 1 0 000-1.664z" />
+                </svg>
+            `;
+            if (playIntervalId) {
+                clearInterval(playIntervalId);
+                playIntervalId = null;
+            }
+        }
+
+        // STEP CONTROLS
+        function stepPrev() {
+            pauseAnimation();
+            if (currentStepIndex > 0) {
+                currentStepIndex--;
+                renderStep();
+            }
+        }
+
+        function stepNext() {
+            pauseAnimation();
+            if (currentStepIndex < animationSteps.length - 1) {
+                currentStepIndex++;
+                renderStep();
+            }
+        }
+
+        // EVENT LISTENERS Setup
+        elBtnInit.addEventListener('click', () => {
+            initVisualizer(elStringInput.value);
+        });
+
+        // Track custom string edits limits
+        elStringInput.addEventListener('input', (e) => {
+            let clean = e.target.value.replace(/\D/g, '');
+            e.target.value = clean;
+            elInputLength.textContent = `${clean.length}/10 chars`;
+        });
+
+        // Listen for preset triggers
+        elPresetBtns.forEach(btn => {
+            btn.addEventListener('click', () => {
+                const val = btn.getAttribute('data-val');
+                elStringInput.value = val;
+                initVisualizer(val);
+            });
+        });
+
+        elBtnPrev.addEventListener('click', stepPrev);
+        elBtnNext.addEventListener('click', stepNext);
+        elBtnPlayPause.addEventListener('click', togglePlay);
+
+        // Track dynamic execution Speed slider
+        elSpeedSlider.addEventListener('input', (e) => {
+            const val = parseInt(e.target.value);
+            playbackSpeed = val;
+            elSpeedDisplay.textContent = `${(val / 1000).toFixed(1)}s`;
+            
+            // If currently playing, restart loop with the new speed profile instantly
+            if (isPlaying) {
+                pauseAnimation();
+                startAnimation();
+            }
+        });
+
+        // Trigger dynamic resized connection elements
+        window.addEventListener('resize', () => {
+            if (animationSteps.length > 0) {
+                drawTracePaths(animationSteps[currentStepIndex]);
+            }
+        });
+
+        // Initial setup on window ready
+        window.onload = function() {
+            buildCodeView();
+            initVisualizer("226");
+        };
+    </script>
+</body>
+</html>
